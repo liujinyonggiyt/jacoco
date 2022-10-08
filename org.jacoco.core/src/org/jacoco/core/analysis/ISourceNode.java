@@ -13,6 +13,7 @@
 package org.jacoco.core.analysis;
 
 /**
+ * 包含每行ILine信息
  * Interface for coverage nodes that have individual source lines like methods,
  * classes and source files.
  */

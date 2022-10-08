@@ -22,8 +22,14 @@ import org.jacoco.core.analysis.ISourceNode;
  */
 public class SourceNodeImpl extends CoverageNodeImpl implements ISourceNode {
 
+	/**
+	 * 包括非指令行，索引对应的是:行号-offset
+	 */
 	private LineImpl[] lines;
 
+	/**
+	 * 第一个指令所在行号
+	 */
 	/** first line number in {@link #lines} */
 	private int offset;
 
@@ -42,6 +48,7 @@ public class SourceNodeImpl extends CoverageNodeImpl implements ISourceNode {
 	}
 
 	/**
+	 * 扩充lines数组大小
 	 * Make sure that the internal buffer can keep lines from first to last.
 	 * While the buffer is also incremented automatically, this method allows
 	 * optimization in case the total range is known in advance.

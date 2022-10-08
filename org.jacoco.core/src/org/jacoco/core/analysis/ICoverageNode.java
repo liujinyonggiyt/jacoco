@@ -19,6 +19,7 @@ package org.jacoco.core.analysis;
 public interface ICoverageNode {
 
 	/**
+	 * 元素类型
 	 * Type of a Java element represented by a {@link ICoverageNode} instance.
 	 */
 	enum ElementType {
@@ -44,6 +45,7 @@ public interface ICoverageNode {
 	}
 
 	/**
+	 * 计数器实体类型
 	 * Different counter types supported by JaCoCo.
 	 */
 	enum CounterEntity {
@@ -133,6 +135,8 @@ public interface ICoverageNode {
 	ICounter getCounter(CounterEntity entity);
 
 	/**
+	 * 是否包含覆盖率数据（是否包含指令覆盖率计数）
+	 *
 	 * Checks whether this node contains code relevant for code coverage.
 	 *
 	 * @return <code>true</code> if this node contains code relevant for code
@@ -141,6 +145,7 @@ public interface ICoverageNode {
 	boolean containsCode();
 
 	/**
+	 * 只拷贝counter
 	 * Creates a plain copy of this node. While {@link ICoverageNode}
 	 * implementations may contain heavy data structures, the copy returned by
 	 * this method is reduced to the counters only. This helps to save memory

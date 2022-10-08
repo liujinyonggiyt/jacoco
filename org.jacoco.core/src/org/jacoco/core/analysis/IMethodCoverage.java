@@ -26,6 +26,7 @@ public interface IMethodCoverage extends ISourceNode {
 	String getDesc();
 
 	/**
+	 * 方法签名
 	 * Returns the generic signature of the method if defined.
 	 *
 	 * @return generic signature or <code>null</code>

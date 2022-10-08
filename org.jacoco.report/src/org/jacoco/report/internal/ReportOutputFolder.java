@@ -113,6 +113,11 @@ public class ReportOutputFolder {
 		return "../" + this.getLink(base.parent, name);
 	}
 
+	/**
+	 * 当前实例是否是folder参数的祖先
+	 * @param folder
+	 * @return
+	 */
 	private boolean isAncestorOf(final ReportOutputFolder folder) {
 		if (this == folder) {
 			return true;

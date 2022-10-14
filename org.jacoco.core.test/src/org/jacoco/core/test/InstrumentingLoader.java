@@ -80,7 +80,7 @@ public final class InstrumentingLoader extends ClassLoader {
 
 	public ExecutionDataStore collect() {
 		final ExecutionDataStore store = new ExecutionDataStore();
-		data.collect(store, new SessionInfoStore(), false);
+		data.collect(store, store, new SessionInfoStore(), false);
 		runtime.shutdown();
 		return store;
 	}

@@ -10,26 +10,18 @@
  *    Marc R. Hoffmann - initial API and implementation
  *
  *******************************************************************************/
-package org.jacoco.core.analysis;
+package org.jacoco.cli.internal;
 
-/**
- * Coverage data of a single method. The name of this node is the local method
- * name.
- */
-public interface IMethodCoverage extends ISourceNode {
+import java.io.PrintWriter;
 
-	/**
-	 * Returns the descriptor of the method.
-	 *
-	 * @return descriptor
-	 */
-	String getDesc();
+public class JacocoApi {
+	protected static int result;
 
-	/**
-	 * 方法签名 Returns the generic signature of the method if defined.
-	 *
-	 * @return generic signature or <code>null</code>
-	 */
-	String getSignature();
-
+	public static int execute(String... args) throws Exception {
+		final PrintWriter out = new PrintWriter(System.out, true);
+		final PrintWriter err = new PrintWriter(System.err, true);
+		result = new Main(args).execute(new PrintWriter(out),
+				new PrintWriter(err));
+		return result;
+	}
 }

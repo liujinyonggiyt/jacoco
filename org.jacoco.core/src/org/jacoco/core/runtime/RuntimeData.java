@@ -12,11 +12,7 @@
  *******************************************************************************/
 package org.jacoco.core.runtime;
 
-import org.jacoco.core.data.ExecutionData;
-import org.jacoco.core.data.ExecutionDataStore;
-import org.jacoco.core.data.IExecutionDataVisitor;
-import org.jacoco.core.data.ISessionInfoVisitor;
-import org.jacoco.core.data.SessionInfo;
+import org.jacoco.core.data.*;
 import org.jacoco.core.internal.instr.InstrSupport;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -49,7 +45,8 @@ public class RuntimeData {
 	 * identifier is generated from the host name and a random number. This
 	 * method can be called at any time.
 	 *
-	 * @see #collect(IExecutionDataVisitor, ISessionInfoVisitor, boolean)
+	 * @see #collect(IExecutionDataVisitor, IProjectInfoVisitor,
+	 *      ISessionInfoVisitor, boolean)
 	 * @param id
 	 *            new session identifier
 	 */
@@ -65,6 +62,38 @@ public class RuntimeData {
 	 */
 	public String getSessionId() {
 		return sessionId;
+	}
+
+	public void setProjectData(final ProjectData projectData) {
+		store.setProjectData(projectData);
+	}
+
+	/**
+	 * Collects the current execution data and writes it to the given
+	 * {@link IExecutionDataVisitor} object.
+	 *
+	 * @param executionDataVisitor
+	 *            handler to write coverage data to
+	 * @param projectInfoVisitor
+	 *            项目信息
+	 * @param sessionInfoVisitor
+	 *            handler to write session information to
+	 * @param reset
+	 *            if <code>true</code> the current coverage information is also
+	 *            cleared
+	 */
+	public final void collect(final IExecutionDataVisitor executionDataVisitor,
+			final IProjectInfoVisitor projectInfoVisitor,
+			final ISessionInfoVisitor sessionInfoVisitor, final boolean reset) {
+		synchronized (store) {
+			final SessionInfo info = new SessionInfo(sessionId, startTimeStamp,
+					System.currentTimeMillis());
+			sessionInfoVisitor.visitSessionInfo(info);
+			store.accept(executionDataVisitor, projectInfoVisitor);
+			if (reset) {
+				reset();
+			}
+		}
 	}
 
 	/**
@@ -85,7 +114,6 @@ public class RuntimeData {
 			final SessionInfo info = new SessionInfo(sessionId, startTimeStamp,
 					System.currentTimeMillis());
 			sessionInfoVisitor.visitSessionInfo(info);
-			store.accept(executionDataVisitor);
 			if (reset) {
 				reset();
 			}

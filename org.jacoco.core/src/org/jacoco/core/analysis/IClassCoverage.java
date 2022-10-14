@@ -31,10 +31,9 @@ public interface IClassCoverage extends ISourceNode {
 	long getId();
 
 	/**
-	 * 执行信息和class信息是否匹配
-	 * Returns if the the analyzed class does match the execution data provided.
-	 * More precisely if execution data is available for a class with the same
-	 * qualified name but with a different class id.
+	 * 执行信息和class信息是否匹配 Returns if the the analyzed class does match the
+	 * execution data provided. More precisely if execution data is available
+	 * for a class with the same qualified name but with a different class id.
 	 *
 	 * @return <code>true</code> if this class does not match to the provided
 	 *         execution data.
@@ -71,8 +70,8 @@ public interface IClassCoverage extends ISourceNode {
 	String getPackageName();
 
 	/**
-	 * 如果没有源文件，会返回null
-	 * Returns the optional name of the corresponding source file.
+	 * 如果没有源文件，会返回null Returns the optional name of the corresponding source
+	 * file.
 	 *
 	 * @return name of the corresponding source file
 	 */

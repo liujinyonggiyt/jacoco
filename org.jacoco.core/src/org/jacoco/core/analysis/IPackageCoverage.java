@@ -15,11 +15,9 @@ package org.jacoco.core.analysis;
 import java.util.Collection;
 
 /**
- * 1.包含类和源文件覆盖率信息
- * 2.名字是/分割
- * Coverage data of a Java package containing classes and source files. The name
- * of this node is the package name in VM notation (slash separated). The name
- * of the default package is the empty string.
+ * 1.包含类和源文件覆盖率信息 2.名字是/分割 Coverage data of a Java package containing classes
+ * and source files. The name of this node is the package name in VM notation
+ * (slash separated). The name of the default package is the empty string.
  *
  * @see IClassCoverage
  * @see ISourceFileCoverage

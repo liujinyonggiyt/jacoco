@@ -147,6 +147,10 @@ public class AbstractCoverageTask extends Task {
 		agentOptions.setSessionId(id);
 	}
 
+	public void setCommitId(final String commitId) {
+		agentOptions.setCommitId(commitId);
+	}
+
 	/**
 	 * Dump coverage data on VM termination. Default is <code>true</code>
 	 *

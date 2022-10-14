@@ -115,6 +115,7 @@ public class ReportOutputFolder {
 
 	/**
 	 * 当前实例是否是folder参数的祖先
+	 *
 	 * @param folder
 	 * @return
 	 */

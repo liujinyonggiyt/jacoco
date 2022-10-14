@@ -21,8 +21,8 @@ import org.jacoco.core.internal.data.CompactDataOutput;
 /**
  * Serialization of execution data into binary streams.
  */
-public class ExecutionDataWriter
-		implements ISessionInfoVisitor, IExecutionDataVisitor {
+public class ExecutionDataWriter implements ISessionInfoVisitor,
+		IExecutionDataVisitor, IProjectInfoVisitor {
 
 	/**
 	 * File format version, will be incremented for each incompatible change.
@@ -45,6 +45,7 @@ public class ExecutionDataWriter
 
 	/** Block identifier for execution data of a single class. */
 	public static final byte BLOCK_EXECUTIONDATA = 0x11;
+	public static final byte BLOCK_PROJECTINFO = 0x12;
 
 	/** Underlying data output */
 	protected final CompactDataOutput out;
@@ -107,6 +108,15 @@ public class ExecutionDataWriter
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
+		}
+	}
+
+	public void visitProjectInfo(ProjectData projectData) {
+		try {
+			out.writeByte(BLOCK_PROJECTINFO);
+			out.writeUTF(projectData.getCommitId());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

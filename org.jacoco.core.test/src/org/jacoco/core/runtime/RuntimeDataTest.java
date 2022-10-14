@@ -58,7 +58,7 @@ public class RuntimeDataTest {
 
 		assertEquals(3, ((boolean[]) args[0]).length);
 
-		data.collect(storage, storage, false);
+		data.collect(storage, storage, storage, false);
 		boolean[] data = (boolean[]) args[0];
 		assertEquals(3, data.length, 0.0);
 		assertFalse(data[0]);
@@ -70,7 +70,7 @@ public class RuntimeDataTest {
 
 	@Test
 	public void testCollectEmpty() {
-		data.collect(storage, storage, false);
+		data.collect(storage, storage, storage, false);
 		storage.assertSize(0);
 	}
 
@@ -81,7 +81,7 @@ public class RuntimeDataTest {
 				.getProbes();
 		probes[0] = true;
 
-		data.collect(storage, storage, true);
+		data.collect(storage, storage, storage, true);
 
 		assertFalse(probes[0]);
 		assertEquals("testsession", storage.getSessionInfo().getId());
@@ -94,7 +94,7 @@ public class RuntimeDataTest {
 				.getProbes();
 		probes[0] = true;
 
-		data.collect(storage, storage, false);
+		data.collect(storage, storage, storage, false);
 
 		assertTrue(probes[0]);
 		assertEquals("testsession", storage.getSessionInfo().getId());

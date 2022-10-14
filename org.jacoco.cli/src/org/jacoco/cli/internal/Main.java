@@ -42,12 +42,12 @@ public class Main extends Command {
 
 	private final String[] args;
 
+	@Argument(handler = CommandHandler.class, required = true)
+	Command command;
+
 	Main(final String... args) {
 		this.args = args;
 	}
-
-	@Argument(handler = CommandHandler.class, required = true)
-	Command command;
 
 	@Override
 	public String description() {

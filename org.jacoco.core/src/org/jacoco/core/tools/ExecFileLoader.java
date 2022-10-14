@@ -57,6 +57,7 @@ public class ExecFileLoader {
 				new BufferedInputStream(stream));
 		reader.setExecutionDataVisitor(executionData);
 		reader.setSessionInfoVisitor(sessionInfos);
+		reader.setProjectInfoVisitor(executionData);
 		reader.read();
 	}
 
@@ -88,7 +89,7 @@ public class ExecFileLoader {
 	public void save(final OutputStream stream) throws IOException {
 		final ExecutionDataWriter dataWriter = new ExecutionDataWriter(stream);
 		sessionInfos.accept(dataWriter);
-		executionData.accept(dataWriter);
+		executionData.accept(dataWriter, dataWriter);
 	}
 
 	/**

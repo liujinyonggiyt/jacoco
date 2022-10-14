@@ -21,11 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.jacoco.cli.internal.Command;
-import org.jacoco.core.data.ExecutionData;
-import org.jacoco.core.data.ExecutionDataReader;
-import org.jacoco.core.data.IExecutionDataVisitor;
-import org.jacoco.core.data.ISessionInfoVisitor;
-import org.jacoco.core.data.SessionInfo;
+import org.jacoco.core.data.*;
 import org.kohsuke.args4j.Argument;
 
 /**
@@ -75,6 +71,11 @@ public class ExecInfo extends Command {
 						Integer.valueOf(getHitCount(data.getProbes())),
 						Integer.valueOf(data.getProbes().length),
 						data.getName());
+			}
+		});
+		reader.setProjectInfoVisitor(new IProjectInfoVisitor() {
+			public void visitProjectInfo(final ProjectData data) {
+				out.printf("commitId:%s%n", data.getCommitId());
 			}
 		});
 		reader.read();

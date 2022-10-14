@@ -48,10 +48,9 @@ public class SourceNodeImpl extends CoverageNodeImpl implements ISourceNode {
 	}
 
 	/**
-	 * 扩充lines数组大小
-	 * Make sure that the internal buffer can keep lines from first to last.
-	 * While the buffer is also incremented automatically, this method allows
-	 * optimization in case the total range is known in advance.
+	 * 扩充lines数组大小 Make sure that the internal buffer can keep lines from first
+	 * to last. While the buffer is also incremented automatically, this method
+	 * allows optimization in case the total range is known in advance.
 	 *
 	 * @param first
 	 *            first line number or {@link ISourceNode#UNKNOWN_LINE}

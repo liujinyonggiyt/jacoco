@@ -99,6 +99,8 @@ public final class AgentOptions {
 	 */
 	public static final String SESSIONID = "sessionid";
 
+	public static final String COMMITID = "commitId";
+
 	/**
 	 * Specifies whether the agent will automatically dump coverage data on VM
 	 * exit. Default is <code>true</code>.
@@ -191,8 +193,8 @@ public final class AgentOptions {
 
 	private static final Collection<String> VALID_OPTIONS = Arrays.asList(
 			DESTFILE, APPEND, INCLUDES, EXCLUDES, EXCLCLASSLOADER,
-			INCLBOOTSTRAPCLASSES, INCLNOLOCATIONCLASSES, SESSIONID, DUMPONEXIT,
-			OUTPUT, ADDRESS, PORT, CLASSDUMPDIR, JMX);
+			INCLBOOTSTRAPCLASSES, INCLNOLOCATIONCLASSES, SESSIONID, COMMITID,
+			DUMPONEXIT, OUTPUT, ADDRESS, PORT, CLASSDUMPDIR, JMX);
 
 	private final Map<String, String> options;
 
@@ -412,6 +414,10 @@ public final class AgentOptions {
 		return getOption(SESSIONID, null);
 	}
 
+	public String getCommitId() {
+		return getOption(COMMITID, null);
+	}
+
 	/**
 	 * Sets the session identifier.
 	 *
@@ -420,6 +426,10 @@ public final class AgentOptions {
 	 */
 	public void setSessionId(final String id) {
 		setOption(SESSIONID, id);
+	}
+
+	public void setCommitId(final String commitId) {
+		setOption(COMMITID, commitId);
 	}
 
 	/**

@@ -27,11 +27,16 @@ import java.util.Set;
  * coverage date from multiple runs. A instance of this class is not thread
  * safe.
  */
-public final class ExecutionDataStore implements IExecutionDataVisitor {
+public final class ExecutionDataStore
+		implements IExecutionDataVisitor, IProjectInfoVisitor {
 
 	private final Map<Long, ExecutionData> entries = new HashMap<Long, ExecutionData>();
 
 	private final Set<String> names = new HashSet<String>();
+	/**
+	 * 项目信息
+	 */
+	private ProjectData projectData;
 
 	/**
 	 * Adds the given {@link ExecutionData} object into the store. If there is
@@ -165,6 +170,24 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 	 *
 	 * @param visitor
 	 *            interface to write content to
+	 *
+	 * @param projectInfoVisitor
+	 *            访问项目信息
+	 */
+	public void accept(final IExecutionDataVisitor visitor,
+			final IProjectInfoVisitor projectInfoVisitor) {
+		for (final ExecutionData data : getContents()) {
+			visitor.visitClassExecution(data);
+		}
+		projectInfoVisitor.visitProjectInfo(projectData);
+	}
+
+	/**
+	 * Writes the content of the store to the given visitor interface.
+	 *
+	 * @param visitor
+	 *            interface to write content to
+	 *
 	 */
 	public void accept(final IExecutionDataVisitor visitor) {
 		for (final ExecutionData data : getContents()) {
@@ -176,5 +199,17 @@ public final class ExecutionDataStore implements IExecutionDataVisitor {
 
 	public void visitClassExecution(final ExecutionData data) {
 		put(data);
+	}
+
+	public void visitProjectInfo(ProjectData projectData) {
+		this.setProjectData(projectData);
+	}
+
+	public ProjectData getProjectData() {
+		return projectData;
+	}
+
+	public void setProjectData(ProjectData projectData) {
+		this.projectData = projectData;
 	}
 }

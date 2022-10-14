@@ -32,7 +32,8 @@ import org.junit.Test;
 /**
  * Unit tests for {@link ExecutionDataStore}.
  */
-public class ExecutionDataStoreTest implements IExecutionDataVisitor {
+public class ExecutionDataStoreTest
+		implements IExecutionDataVisitor, IProjectInfoVisitor {
 
 	private ExecutionDataStore store;
 
@@ -48,7 +49,11 @@ public class ExecutionDataStoreTest implements IExecutionDataVisitor {
 	public void testEmpty() {
 		assertNull(store.get(123));
 		assertFalse(store.contains("org/jacoco/example/Foo"));
-		store.accept(this);
+		store.accept(this, new IProjectInfoVisitor() {
+			public void visitProjectInfo(ProjectData projectData) {
+
+			}
+		});
 		assertEquals(Collections.emptyMap(), dataOutput);
 	}
 
@@ -59,7 +64,7 @@ public class ExecutionDataStoreTest implements IExecutionDataVisitor {
 		final ExecutionData data = store.get(1000);
 		assertSame(probes, data.getProbes());
 		assertTrue(store.contains("Sample"));
-		store.accept(this);
+		store.accept(this, this);
 		assertEquals(Collections.singletonMap(Long.valueOf(1000), data),
 				dataOutput);
 	}
@@ -73,6 +78,10 @@ public class ExecutionDataStoreTest implements IExecutionDataVisitor {
 			public void visitClassExecution(ExecutionData data) {
 				store.put(new ExecutionData(1002, "Sample2", probes));
 				ExecutionDataStoreTest.this.visitClassExecution(data);
+			}
+		}, new IProjectInfoVisitor() {
+			public void visitProjectInfo(ProjectData projectData) {
+
 			}
 		});
 		assertEquals(2, dataOutput.size());
@@ -224,4 +233,7 @@ public class ExecutionDataStoreTest implements IExecutionDataVisitor {
 		dataOutput.put(Long.valueOf(data.getId()), data);
 	}
 
+	public void visitProjectInfo(ProjectData projectData) {
+
+	}
 }

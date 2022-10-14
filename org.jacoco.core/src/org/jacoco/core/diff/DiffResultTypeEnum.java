@@ -10,26 +10,19 @@
  *    Marc R. Hoffmann - initial API and implementation
  *
  *******************************************************************************/
-package org.jacoco.core.analysis;
+package org.jacoco.core.diff;
 
-/**
- * Coverage data of a single method. The name of this node is the local method
- * name.
- */
-public interface IMethodCoverage extends ISourceNode {
+import java.io.Serializable;
 
-	/**
-	 * Returns the descriptor of the method.
-	 *
-	 * @return descriptor
-	 */
-	String getDesc();
+public enum DiffResultTypeEnum implements Serializable {
 
-	/**
-	 * 方法签名 Returns the generic signature of the method if defined.
-	 *
-	 * @return generic signature or <code>null</code>
-	 */
-	String getSignature();
+	DEL(0, "delete"), ADD(1, "add"), MODIFY(2, "modify");
 
+	private Integer code;
+	private String desc;
+
+	DiffResultTypeEnum(Integer code, String desc) {
+		this.code = code;
+		this.desc = desc;
+	}
 }

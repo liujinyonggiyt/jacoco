@@ -31,6 +31,8 @@ public class ExecutionDataReader {
 
 	private IExecutionDataVisitor executionDataVisitor = null;
 
+	private IProjectInfoVisitor projectInfoVisitor = null;
+
 	private boolean firstBlock = true;
 
 	/**
@@ -63,6 +65,11 @@ public class ExecutionDataReader {
 	 */
 	public void setExecutionDataVisitor(final IExecutionDataVisitor visitor) {
 		this.executionDataVisitor = visitor;
+	}
+
+	public void setProjectInfoVisitor(
+			final IProjectInfoVisitor projectInfoVisitor) {
+		this.projectInfoVisitor = projectInfoVisitor;
 	}
 
 	/**
@@ -115,6 +122,9 @@ public class ExecutionDataReader {
 		case ExecutionDataWriter.BLOCK_EXECUTIONDATA:
 			readExecutionData();
 			return true;
+		case ExecutionDataWriter.BLOCK_PROJECTINFO:
+			readProjectData();
+			return true;
 		default:
 			throw new IOException(
 					format("Unknown block type %x.", Byte.valueOf(blocktype)));
@@ -150,6 +160,14 @@ public class ExecutionDataReader {
 		final boolean[] probes = in.readBooleanArray();
 		executionDataVisitor
 				.visitClassExecution(new ExecutionData(id, name, probes));
+	}
+
+	private void readProjectData() throws IOException {
+		if (projectInfoVisitor == null) {
+			throw new IOException("No project data visitor.");
+		}
+		final String commitId = in.readUTF();
+		projectInfoVisitor.visitProjectInfo(new ProjectData(commitId));
 	}
 
 }

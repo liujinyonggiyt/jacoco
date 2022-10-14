@@ -122,6 +122,7 @@ public class ExecDumpClient {
 			remoteReader.setSessionInfoVisitor(loader.getSessionInfoStore());
 			remoteReader
 					.setExecutionDataVisitor(loader.getExecutionDataStore());
+			remoteReader.setProjectInfoVisitor(loader.getExecutionDataStore());
 
 			remoteWriter.visitDumpCommand(dump, reset);
 

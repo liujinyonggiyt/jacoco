@@ -61,7 +61,7 @@ public class FileOutput implements IAgentOutput {
 		final OutputStream output = openFile();
 		try {
 			final ExecutionDataWriter writer = new ExecutionDataWriter(output);
-			data.collect(writer, writer, reset);
+			data.collect(writer, writer, writer, reset);
 		} finally {
 			output.close();
 		}

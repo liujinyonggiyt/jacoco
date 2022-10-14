@@ -105,6 +105,8 @@ public abstract class AbstractAgentMojo extends AbstractJacocoMojo {
 	 */
 	@Parameter(property = "jacoco.sessionId")
 	String sessionId;
+	@Parameter(property = "jacoco.commitId")
+	String commitId;
 	/**
 	 * If set to true coverage data will be written on VM shutdown.
 	 */
@@ -209,6 +211,9 @@ public abstract class AbstractAgentMojo extends AbstractJacocoMojo {
 		}
 		if (sessionId != null) {
 			agentOptions.setSessionId(sessionId);
+		}
+		if (commitId != null) {
+			agentOptions.setCommitId(commitId);
 		}
 		if (dumpOnExit != null) {
 			agentOptions.setDumpOnExit(dumpOnExit.booleanValue());

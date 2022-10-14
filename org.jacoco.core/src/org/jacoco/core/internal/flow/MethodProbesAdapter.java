@@ -15,6 +15,7 @@ package org.jacoco.core.internal.flow;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jacoco.core.internal.analysis.ClassCoverageImpl;
 import org.jacoco.core.internal.instr.InstrSupport;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -34,6 +35,7 @@ public final class MethodProbesAdapter extends MethodVisitor {
 	private AnalyzerAdapter analyzer;
 
 	private final Map<Label, Label> tryCatchProbeLabels;
+	private ClassCoverageImpl coverage;
 
 	/**
 	 * Create a new adapter instance.
@@ -49,6 +51,16 @@ public final class MethodProbesAdapter extends MethodVisitor {
 		this.probesVisitor = probesVisitor;
 		this.idGenerator = idGenerator;
 		this.tryCatchProbeLabels = new HashMap<Label, Label>();
+	}
+
+	public MethodProbesAdapter(final MethodProbesVisitor probesVisitor,
+			final IProbeIdGenerator idGenerator,
+			final ClassCoverageImpl coverage) {
+		super(InstrSupport.ASM_API_VERSION, probesVisitor);
+		this.probesVisitor = probesVisitor;
+		this.idGenerator = idGenerator;
+		this.tryCatchProbeLabels = new HashMap<Label, Label>();
+		this.coverage = coverage;
 	}
 
 	/**
@@ -159,6 +171,17 @@ public final class MethodProbesAdapter extends MethodVisitor {
 					frame(1));
 		} else {
 			probesVisitor.visitTableSwitchInsn(min, max, dflt, labels);
+		}
+	}
+
+	@Override
+	public void visitEnd() {
+		super.visitEnd();
+		// System.out.println("end count: " + idGenerator.getCurrentId());
+		if (this.coverage != null) {
+			this.coverage.getMethodProbesInfos()
+					.get(this.coverage.getMethodProbesInfos().size() - 1)
+					.setEndIndex(idGenerator.getCurrentId());
 		}
 	}
 

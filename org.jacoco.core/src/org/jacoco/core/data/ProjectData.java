@@ -10,26 +10,22 @@
  *    Marc R. Hoffmann - initial API and implementation
  *
  *******************************************************************************/
-package org.jacoco.core.analysis;
+package org.jacoco.core.data;
 
 /**
- * Coverage data of a single method. The name of this node is the local method
- * name.
+ * @author liujinyong
  */
-public interface IMethodCoverage extends ISourceNode {
-
+public class ProjectData {
 	/**
-	 * Returns the descriptor of the method.
-	 *
-	 * @return descriptor
+	 * 当前git commit hash
 	 */
-	String getDesc();
+	private final String commitId;
 
-	/**
-	 * 方法签名 Returns the generic signature of the method if defined.
-	 *
-	 * @return generic signature or <code>null</code>
-	 */
-	String getSignature();
+	public ProjectData(String commitId) {
+		this.commitId = commitId;
+	}
 
+	public String getCommitId() {
+		return commitId;
+	}
 }

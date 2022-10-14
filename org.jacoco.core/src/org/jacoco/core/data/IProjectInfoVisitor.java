@@ -10,26 +10,10 @@
  *    Marc R. Hoffmann - initial API and implementation
  *
  *******************************************************************************/
-package org.jacoco.core.analysis;
+package org.jacoco.core.data;
 
-/**
- * Coverage data of a single method. The name of this node is the local method
- * name.
- */
-public interface IMethodCoverage extends ISourceNode {
+public interface IProjectInfoVisitor {
 
-	/**
-	 * Returns the descriptor of the method.
-	 *
-	 * @return descriptor
-	 */
-	String getDesc();
-
-	/**
-	 * 方法签名 Returns the generic signature of the method if defined.
-	 *
-	 * @return generic signature or <code>null</code>
-	 */
-	String getSignature();
+	void visitProjectInfo(ProjectData projectData);
 
 }

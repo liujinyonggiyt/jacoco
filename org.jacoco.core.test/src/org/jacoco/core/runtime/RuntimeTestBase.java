@@ -58,7 +58,7 @@ public abstract class RuntimeTestBase {
 	public void testDataAccessor()
 			throws InstantiationException, IllegalAccessException {
 		ITarget t = generateAndInstantiateClass(1234);
-		data.collect(storage, storage, false);
+		data.collect(storage, storage, storage, false);
 		storage.assertData(1234, t.get());
 	}
 
@@ -78,7 +78,7 @@ public abstract class RuntimeTestBase {
 	public void testExecutionRecording()
 			throws InstantiationException, IllegalAccessException {
 		generateAndInstantiateClass(1001).a();
-		data.collect(storage, storage, false);
+		data.collect(storage, storage, storage, false);
 		storage.assertSize(1);
 		final boolean[] data = storage.getData(1001).getProbes();
 		assertTrue(data[0]);
@@ -90,7 +90,7 @@ public abstract class RuntimeTestBase {
 			throws InstantiationException, IllegalAccessException {
 		generateAndInstantiateClass(1001).a();
 		generateAndInstantiateClass(1001).b();
-		data.collect(storage, storage, false);
+		data.collect(storage, storage, storage, false);
 		storage.assertSize(1);
 		final boolean[] data = storage.getData(1001).getProbes();
 		assertTrue(data[0]);

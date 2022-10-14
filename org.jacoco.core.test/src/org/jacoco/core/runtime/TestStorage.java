@@ -18,12 +18,10 @@ import static org.junit.Assert.assertSame;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jacoco.core.data.ExecutionData;
-import org.jacoco.core.data.IExecutionDataVisitor;
-import org.jacoco.core.data.ISessionInfoVisitor;
-import org.jacoco.core.data.SessionInfo;
+import org.jacoco.core.data.*;
 
-class TestStorage implements IExecutionDataVisitor, ISessionInfoVisitor {
+class TestStorage implements IExecutionDataVisitor, ISessionInfoVisitor,
+		IProjectInfoVisitor {
 
 	private final Map<Long, ExecutionData> data = new HashMap<Long, ExecutionData>();
 
@@ -57,4 +55,7 @@ class TestStorage implements IExecutionDataVisitor, ISessionInfoVisitor {
 		this.info = info;
 	}
 
+	public void visitProjectInfo(ProjectData projectData) {
+
+	}
 }

@@ -59,6 +59,10 @@ public class CoverageBuilder implements ICoverageVisitor {
 		return Collections.unmodifiableCollection(classes.values());
 	}
 
+	public Map<String, IClassCoverage> getClassesMap() {
+		return this.classes;
+	}
+
 	/**
 	 * Returns all source file nodes currently contained in this builder.
 	 *

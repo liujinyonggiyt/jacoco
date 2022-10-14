@@ -24,6 +24,7 @@ import java.util.zip.ZipInputStream;
 import org.jacoco.core.JaCoCo;
 import org.jacoco.core.data.ExecutionData;
 import org.jacoco.core.data.ExecutionDataStore;
+import org.jacoco.core.diff.DiffClassInfo;
 import org.jacoco.core.internal.ContentTypeDetector;
 import org.jacoco.core.internal.InputStreams;
 import org.jacoco.core.internal.Pack200Streams;
@@ -72,13 +73,16 @@ public class Analyzer {
 	/**
 	 * Creates an ASM class visitor for analysis.
 	 *
+	 * @param diffClassInfo
+	 *            diffClassInfo
 	 * @param classid
 	 *            id of the class calculated with {@link CRC64}
 	 * @param className
 	 *            VM name of the class
 	 * @return ASM visitor to write class definition to
 	 */
-	private ClassVisitor createAnalyzingVisitor(final long classid,
+	private ClassVisitor createAnalyzingVisitor(
+			final DiffClassInfo diffClassInfo, final long classid,
 			final String className) {
 		final ExecutionData data = executionData.get(classid);
 		final boolean[] probes;
@@ -100,10 +104,19 @@ public class Analyzer {
 				coverageVisitor.visitCoverage(coverage);
 			}
 		};
-		return new ClassProbesAdapter(analyzer, false);
+		return new ClassProbesAdapter(analyzer, false, coverage, diffClassInfo);
 	}
 
-	private void analyzeClass(final byte[] source) {
+	/**
+	 * 分析类
+	 *
+	 * @param diffClassInfo
+	 *            diffClassInfo
+	 * @param source
+	 *            class definitions
+	 */
+	private void analyzeClass(final DiffClassInfo diffClassInfo,
+			final byte[] source) {
 		final long classId = CRC64.classId(source);
 		final ClassReader reader = InstrSupport.classReaderFor(source);
 		if ((reader.getAccess() & Opcodes.ACC_MODULE) != 0) {
@@ -112,8 +125,8 @@ public class Analyzer {
 		if ((reader.getAccess() & Opcodes.ACC_SYNTHETIC) != 0) {
 			return;
 		}
-		final ClassVisitor visitor = createAnalyzingVisitor(classId,
-				reader.getClassName());
+		final ClassVisitor visitor = createAnalyzingVisitor(diffClassInfo,
+				classId, reader.getClassName());
 		reader.accept(visitor, 0);
 	}
 
@@ -130,7 +143,28 @@ public class Analyzer {
 	public void analyzeClass(final byte[] buffer, final String location)
 			throws IOException {
 		try {
-			analyzeClass(buffer);
+			analyzeClass(null, buffer);
+		} catch (final RuntimeException cause) {
+			throw analyzerError(location, cause);
+		}
+	}
+
+	/**
+	 * Analyzes the class definition from a given in-memory buffer.
+	 *
+	 * @param diffClassInfo
+	 *            diffClassInfo
+	 * @param buffer
+	 *            class definitions
+	 * @param location
+	 *            a location description used for exception messages
+	 * @throws IOException
+	 *             if the class can't be analyzed
+	 */
+	public void analyzeClass(final DiffClassInfo diffClassInfo,
+			final byte[] buffer, final String location) throws IOException {
+		try {
+			analyzeClass(diffClassInfo, buffer);
 		} catch (final RuntimeException cause) {
 			throw analyzerError(location, cause);
 		}

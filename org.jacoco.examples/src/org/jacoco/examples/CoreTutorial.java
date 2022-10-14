@@ -137,7 +137,7 @@ public final class CoreTutorial {
 		// the runtime:
 		final ExecutionDataStore executionData = new ExecutionDataStore();
 		final SessionInfoStore sessionInfos = new SessionInfoStore();
-		data.collect(executionData, sessionInfos, false);
+		data.collect(executionData, executionData, sessionInfos, false);
 		runtime.shutdown();
 
 		// Together with the original class definition we can calculate coverage

@@ -169,8 +169,7 @@ public class ClassProbesAdapter extends ClassVisitor
 		if (diffClassInfo.getDiffType() == DiffResultTypeEnum.ADD) {
 			return true;
 		}
-		for (DiffMethodInfo diffMethodInfo : diffClassInfo
-				.getDiffMethodInfos()) {
+		for (DiffMethodInfo diffMethodInfo : diffClassInfo.getDiffMethodInfos()) {
 			// 过滤掉删除的方法
 			if (DiffResultTypeEnum.DEL == diffMethodInfo.getDiffType()) {
 				continue;
@@ -180,8 +179,7 @@ public class ClassProbesAdapter extends ClassVisitor
 				continue;
 			}
 			// 检查参数是否一致
-			if (!MethodUriAdapter.checkParamsIn(diffMethodInfo.getParams(),
-					desc)) {
+			if (!MethodUriAdapter.checkParamsIn(diffMethodInfo.getParams(),desc)) {
 				continue;
 			}
 			return true;

@@ -12,104 +12,114 @@
  *******************************************************************************/
 package org.jacoco.core.diff;
 
+
 import java.io.Serializable;
 import java.util.List;
 
 public class DiffClassInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String packageName;
-	private String className;
-	private DiffResultTypeEnum diffType;
-	private List<DiffMethodInfo> diffMethodInfos;
+    /**
+     * maven模块名字
+     */
+    private String moduleName;
+    /**
+     * 全限定类名，不包含.java
+     */
+    private String absoluteClassName;
+    private DiffResultTypeEnum diffType;
+    /**
+     * diffType==MODIFY，此字段才赋值。注意多次git提交记录下，同个方法会出现多个方法的记录
+     */
+    private List<DiffMethodInfo> diffMethodInfos;
 
-	/**
-	 * 返回Asm解析中对应的类名格式
-	 *
-	 * @return
-	 */
-	public String getAsmClassName() {
-		// return this.packageName.replaceAll(".","/")+this.className+
-		// GitConst.JAVA_FILE_SUFFIX;
-		return this.className;
-	}
+    /**
+     * 唯一标识符
+     * @return
+     */
+    public String getUrl() {
+        if (null == moduleName || "".equals(moduleName)) {
+            return absoluteClassName;
+        }
+        return moduleName + "/" + absoluteClassName;
+    }
 
-	public String getPackageName() {
-		return packageName;
-	}
+    public String getModuleName() {
+        return moduleName;
+    }
 
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
-	public String getClassName() {
-		return className;
-	}
+    public String getAbsoluteClassName() {
+        return this.absoluteClassName;
+    }
 
-	public void setClassName(String className) {
-		this.className = className;
-	}
+    public void setAbsoluteClassName(String absoluteClassName) {
+        this.absoluteClassName = absoluteClassName;
+    }
 
-	public DiffResultTypeEnum getDiffType() {
-		return diffType;
-	}
+    public DiffResultTypeEnum getDiffType() {
+        return diffType;
+    }
 
-	public void setDiffType(DiffResultTypeEnum diffType) {
-		this.diffType = diffType;
-	}
+    public void setDiffType(DiffResultTypeEnum diffType) {
+        this.diffType = diffType;
+    }
 
-	public List<DiffMethodInfo> getDiffMethodInfos() {
-		return diffMethodInfos;
-	}
+    public List<DiffMethodInfo> getDiffMethodInfos() {
+        return diffMethodInfos;
+    }
 
-	public void setDiffMethodInfos(List<DiffMethodInfo> diffMethodInfos) {
-		this.diffMethodInfos = diffMethodInfos;
-	}
+    public void setDiffMethodInfos(List<DiffMethodInfo> diffMethodInfos) {
+        this.diffMethodInfos = diffMethodInfos;
+    }
 
-	public static Builder builder(){
-		return Builder.aDiffClassInfo();
-	}
+    public static Builder builder() {
+        return Builder.aDiffClassInfo();
+    }
 
-	public static final class Builder {
-		private String packageName;
-		private String className;
-		private DiffResultTypeEnum diffType;
-		private List<DiffMethodInfo> diffMethodInfos;
+    public static final class Builder {
+        private String moduleName;
+        private String absoluteClassName;
+        private DiffResultTypeEnum diffType;
+        private List<DiffMethodInfo> diffMethodInfos;
 
-		private Builder() {
-		}
+        private Builder() {
+        }
 
-		public static Builder aDiffClassInfo() {
-			return new Builder();
-		}
+        public static Builder aDiffClassInfo() {
+            return new Builder();
+        }
 
-		public Builder packageName(String packageName) {
-			this.packageName = packageName;
-			return this;
-		}
+        public Builder moduleName(String moduleName) {
+            this.moduleName = moduleName;
+            return this;
+        }
 
-		public Builder className(String className) {
-			this.className = className;
-			return this;
-		}
+        public Builder absoluteClassName(String className) {
+            this.absoluteClassName = className;
+            return this;
+        }
 
-		public Builder diffType(DiffResultTypeEnum diffType) {
-			this.diffType = diffType;
-			return this;
-		}
+        public Builder diffType(DiffResultTypeEnum diffType) {
+            this.diffType = diffType;
+            return this;
+        }
 
-		public Builder diffMethodInfos(List<DiffMethodInfo> diffMethodInfos) {
-			this.diffMethodInfos = diffMethodInfos;
-			return this;
-		}
+        public Builder diffMethodInfos(List<DiffMethodInfo> diffMethodInfos) {
+            this.diffMethodInfos = diffMethodInfos;
+            return this;
+        }
 
-		public DiffClassInfo build() {
-			DiffClassInfo diffClassInfo = new DiffClassInfo();
-			diffClassInfo.setPackageName(packageName);
-			diffClassInfo.setClassName(className);
-			diffClassInfo.setDiffType(diffType);
-			diffClassInfo.setDiffMethodInfos(diffMethodInfos);
-			return diffClassInfo;
-		}
-	}
+        public DiffClassInfo build() {
+            DiffClassInfo diffClassInfo = new DiffClassInfo();
+            diffClassInfo.setModuleName(moduleName);
+            diffClassInfo.setAbsoluteClassName(absoluteClassName);
+            diffClassInfo.setDiffType(diffType);
+            diffClassInfo.setDiffMethodInfos(diffMethodInfos);
+            return diffClassInfo;
+        }
+    }
 }

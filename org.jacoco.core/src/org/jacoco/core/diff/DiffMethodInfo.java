@@ -20,16 +20,10 @@ public class DiffMethodInfo implements Serializable {
 	private String methodName;
 	private String md5;
 	private DiffResultTypeEnum diffType;
-	private String methodUri;
 	private String params;
 
-	public String getMethodUri(DiffClassInfo diffClassInfo) {
-		return diffClassInfo.getAsmClassName() + "." + getMethodName()
-				+ getParams();
-	}
-
-	public String getMethodUri(String asmClassName) {
-		return asmClassName + "." + getMethodName() + getParams();
+	public String getMethodUri() {
+		return methodName + "#" + params;
 	}
 
 	public String getMethodName() {
@@ -56,14 +50,6 @@ public class DiffMethodInfo implements Serializable {
 		this.diffType = diffType;
 	}
 
-	public String getMethodUri() {
-		return methodUri;
-	}
-
-	public void setMethodUri(String methodUri) {
-		this.methodUri = methodUri;
-	}
-
 	public String getParams() {
 		return params;
 	}
@@ -79,7 +65,6 @@ public class DiffMethodInfo implements Serializable {
 		private String methodName;
 		private String md5;
 		private DiffResultTypeEnum diffType;
-		private String methodUri;
 		private String params;
 
 		private Builder() {
@@ -104,11 +89,6 @@ public class DiffMethodInfo implements Serializable {
 			return this;
 		}
 
-		public Builder methodUri(String methodUri) {
-			this.methodUri = methodUri;
-			return this;
-		}
-
 		public Builder params(String params) {
 			this.params = params;
 			return this;
@@ -119,7 +99,6 @@ public class DiffMethodInfo implements Serializable {
 			diffMethodInfo.setMethodName(methodName);
 			diffMethodInfo.setMd5(md5);
 			diffMethodInfo.setDiffType(diffType);
-			diffMethodInfo.setMethodUri(methodUri);
 			diffMethodInfo.setParams(params);
 			return diffMethodInfo;
 		}
